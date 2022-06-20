@@ -17,17 +17,49 @@ module.exports = {
           'file-loader'
         ]
       },
+      // {
+      //   test: /\.(css)$/,
+      //   use : [
+      //     'style-loader', 'css-loader'
+      //   ]
+      // },
+      // {
+      //   test: /\.(scss|sass)$/,
+      //   use : [
+      //     'style-loader', 'css-loader', 'sass-loader'
+      //   ]
+      // },
+      // {
+      //   test: /\.module\.(scss|sass)$/,
+      //   use: [
+      //     "style-loader",
+      //     {
+      //       loader: "css-loader",
+      //       options: {
+      //         importLoaders: 1,
+      //         modules: true,
+      //       },
+      //     },
+      //     "sass-loader"
+      //   ]
+      // },
       {
-        test: /\.(css)$/,
-        use : [
-          'style-loader', 'css-loader'
-        ]
+        test: /\\module.(scss|sass)$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+          "sass-loader"
+        ],
       },
       {
         test: /\.(scss|sass)$/,
-        use : [
-          'style-loader', 'css-loader', 'sass-loader'
-        ]
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(js)$/,
