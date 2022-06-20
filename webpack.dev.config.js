@@ -1,13 +1,13 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const TerserPlugin = require('terser-webpack-plugin'); // not needed during dev
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // not needed during dev
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'bundle.[contenthash].js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, './dist'),
     // publicPath: 'http://the-most-awesome=website.com/',
     // publicPath: 'dist/',
@@ -24,18 +24,18 @@ module.exports = {
       },
       {
         test: /\.(css)$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: ["style-loader", "css-loader"],
         exclude: /\.module\.(css)$/,
       },
       {
         test: /\.(scss|sass)$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
         exclude: /\.module\.(scss|sass)$/,
       },
       {
         test: /\.module\.(scss|sass)$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          "style-loader",
           {
             loader: "css-loader",
             options: {
@@ -72,10 +72,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new TerserPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'styles.[contenthash].css',
-    }),
+    // new TerserPlugin(), // not needed during dev
+    // new MiniCssExtractPlugin({
+    //   filename: 'styles.[contenthash].css',
+    // }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
         '**/*',
