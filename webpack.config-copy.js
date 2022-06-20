@@ -13,7 +13,7 @@ module.exports = {
     // publicPath: 'dist/',
     publicPath: ''
   },
-  mode: 'development',
+  mode: 'none',
   module: {
     rules: [
       {
