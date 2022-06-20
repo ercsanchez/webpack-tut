@@ -6,6 +6,8 @@ class HelloWorldButton {
 
   render() {
     console.log(styles);
+    const { 'hello-world-button': buttonStyle, 'hello-world-text': textStyle } = styles;
+    console.log(buttonStyle, textStyle);
     const button = document.createElement("button");
     button.innerHTML = "Hello World!";
     button.classList.add(`${styles[`hello-world-button`]}`);
