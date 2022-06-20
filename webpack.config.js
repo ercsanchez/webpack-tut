@@ -44,7 +44,7 @@ module.exports = {
       //   ]
       // },
       {
-        test: /\\module.(scss|sass)$/,
+        test: /\\module\.(scss|sass)$/,
         use: [
           "style-loader",
           {
