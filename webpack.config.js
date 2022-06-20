@@ -1,4 +1,5 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -17,34 +18,13 @@ module.exports = {
           'file-loader'
         ]
       },
-      // {
-      //   test: /\.(css)$/,
-      //   use : [
-      //     'style-loader', 'css-loader'
-      //   ]
-      // },
-      // {
-      //   test: /\.(scss|sass)$/,
-      //   use : [
-      //     'style-loader', 'css-loader', 'sass-loader'
-      //   ]
-      // },
-      // {
-      //   test: /\.module\.(scss|sass)$/,
-      //   use: [
-      //     "style-loader",
-      //     {
-      //       loader: "css-loader",
-      //       options: {
-      //         importLoaders: 1,
-      //         modules: true,
-      //       },
-      //     },
-      //     "sass-loader"
-      //   ]
-      // },
       {
-        test: /\*\.module\.(scss|sass)$/,
+        test: /\.(scss|sass)$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+        exclude: /\.module\.(scss|sass)$/,
+      },
+      {
+        test: /\.module\.(scss|sass)$/,
         use: [
           "style-loader",
           {
@@ -56,11 +36,9 @@ module.exports = {
           },
           "sass-loader"
         ],
+        // include: /\.module\.(scss|sass)$/,
       },
-      {
-        test: /\.(scss|sass)$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
-      },
+
       {
         test: /\.(js)$/,
         exclude: /node_modules/,
@@ -73,5 +51,9 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new TerserPlugin(),
+
+  ]
 }
