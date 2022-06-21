@@ -3,7 +3,6 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -62,13 +61,9 @@ module.exports = {
       },
       {
         test: /\.hbs$/,
-        use: {
-          loader: 'handlebars-loader',
-          // options: {
-          //   presets: ['@babel/env'],
-          //   plugins: ['transform-class-properties'],
-          // }
-        }
+        use: [
+          'handlebars-loader'
+        ]
       }
     ]
   },
@@ -77,19 +72,18 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'styles.[contenthash].css',
     }),
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [
-        '**/*',
-        path.join(process.cwd(), 'build/**/*')
-      ]
-    }),
+    // new CleanWebpackPlugin({
+    //   cleanOnceBeforeBuildPatterns: [
+    //     '**/*',
+    //     path.join(process.cwd(), 'build/**/*')
+    //   ]
+    // }),
     new HtmlWebpackPlugin({
-      title: 'Hello world',
       // filename: 'subfolder/custom_filename.html',
-
       // meta: {
       //   description: 'Some description'
       // }
+      title: 'Hello world',
       template: 'src/index.hbs',
       description: 'Some description'
     }),

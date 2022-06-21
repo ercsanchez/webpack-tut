@@ -4,16 +4,32 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const absolutePathToDist = path.resolve(__dirname, './dist');
+
 module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, './dist'),
+    path: absolutePathToDist,
     // publicPath: 'http://the-most-awesome=website.com/',
     // publicPath: 'dist/',
     publicPath: ''
   },
   mode: 'development',
+  devServer: {
+    // contentBase: absolutePathToDist,
+    // index: 'index.html',
+    // writeToDisk: true,
+    static: {
+      directory: absolutePathToDist
+    },
+    port: 9000,
+    devMiddleware: {
+      index: 'index.html',
+      writeToDisk: true
+    },
+    compress: true,
+  },
   module: {
     rules: [
       {
@@ -61,13 +77,9 @@ module.exports = {
       },
       {
         test: /\.hbs$/,
-        use: {
-          loader: 'handlebars-loader',
-          // options: {
-          //   presets: ['@babel/env'],
-          //   plugins: ['transform-class-properties'],
-          // }
-        }
+        use: [
+          'handlebars-loader'
+        ]
       }
     ]
   },
@@ -76,16 +88,15 @@ module.exports = {
     // new MiniCssExtractPlugin({
     //   filename: 'styles.[contenthash].css',
     // }),
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [
-        '**/*',
-        path.join(process.cwd(), 'build/**/*')
-      ]
-    }),
+    // new CleanWebpackPlugin({
+    //   cleanOnceBeforeBuildPatterns: [
+    //     '**/*',
+    //     path.join(process.cwd(), 'build/**/*')
+    //   ]
+    // }),
     new HtmlWebpackPlugin({
       title: 'Hello world',
       // filename: 'subfolder/custom_filename.html',
-
       // meta: {
       //   description: 'Some description'
       // }
