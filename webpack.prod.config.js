@@ -72,12 +72,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'styles.[contenthash].css',
     }),
-    // new CleanWebpackPlugin({
-    //   cleanOnceBeforeBuildPatterns: [
-    //     '**/*',
-    //     path.join(process.cwd(), 'build/**/*')
-    //   ]
-    // }),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        '**/*', // remove all files in dist folder | default behavior of plugin
+        path.join(process.cwd(), 'build/**/*')  // additional folder to clean
+      ]
+    }),
     new HtmlWebpackPlugin({
       // filename: 'subfolder/custom_filename.html',
       // meta: {
