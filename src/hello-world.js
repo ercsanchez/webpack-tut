@@ -1,11 +1,13 @@
 import HelloWorldButton from './components/hello-world-button/hello-world-button.js';
 import Header from './components/header/header.js';
 import addImage from "./add-image.js";
+import React from 'react';
 
 const helloWorldBtn = new HelloWorldButton();
 helloWorldBtn.render();
 const header = new Header();
-header.render();
+header.render('hello world');
+
 addImage();
 
 if (process.env.NODE_ENV === 'production') {

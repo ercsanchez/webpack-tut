@@ -7,9 +7,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const absolutePathToDist = path.resolve(__dirname, './dist');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    'hello-world': './src/hello-world.js',
+    'kiwi': './src/kiwi.js'
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: absolutePathToDist,
     // publicPath: 'http://the-most-awesome=website.com/',
     // publicPath: 'dist/',
@@ -101,8 +104,17 @@ module.exports = {
       // meta: {
       //   description: 'Some description'
       // }
-      template: 'src/index.hbs',
-      description: 'Some description'
+      chunks: ['hello-world'],
+      filename: 'hello-world.html',
+      template: 'src/page-template.hbs',
+      description: 'Hello World'
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Kiwi',
+      chunks: ['kiwi'],
+      filename: 'kiwi.html',
+      template: 'src/page-template.hbs',
+      description: 'Kiwi'
     }),
   ]
 }

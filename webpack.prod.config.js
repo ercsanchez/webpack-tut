@@ -5,15 +5,43 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    'hello-world': './src/hello-world.js',
+    'kiwi': './src/kiwi.js',
+  },
   output: {
-    filename: 'bundle.[contenthash].js',
+    filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, './dist'),
     // publicPath: 'http://the-most-awesome=website.com/',
     // publicPath: 'dist/',
     publicPath: ''
   },
   mode: 'production',
+  // only splits commmon dependencies of each bundle.js into a single chunk
+  // and cache it separately
+  // deps that are not common to all bundles are not split
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minSize: 3000, // only deps with byte size exceeding minSize are extracted into a separate chunk
+      automaticNameDelimiter: "_",
+    }
+  },
+  // for testing production build files
+  devServer: {
+    // contentBase: absolutePathToDist,
+    // index: 'index.html',
+    // writeToDisk: true,
+    static: {
+      directory: path.resolve(__dirname, './dist')
+    },
+    port: 9000,
+    devMiddleware: {
+      index: 'index.html',
+      writeToDisk: true
+    },
+    compress: true,
+  },
   module: {
     rules: [
       {
@@ -70,7 +98,7 @@ module.exports = {
   plugins: [
     // new TerserPlugin(), // already included in production by webpack
     new MiniCssExtractPlugin({
-      filename: 'styles.[contenthash].css',
+      filename: '[name].[contenthash].css',
     }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
@@ -79,13 +107,23 @@ module.exports = {
       ]
     }),
     new HtmlWebpackPlugin({
-      // filename: 'subfolder/custom_filename.html',
-      // meta: {
-      //   description: 'Some description'
-      // }
+      filename: 'hello-world.html',
+
+      // which bundle.js files to link/reference to this html | entry['name']
+      // no need to add the chunk referring to common dependencies (vendor) | automatically done by webpack
+      chunks: ['hello-world'],
       title: 'Hello world',
-      template: 'src/index.hbs',
-      description: 'Some description'
+      template: 'src/page-template.hbs',
+      description: 'Hello World',
+      // don't minify to see code formatted | minify if for production
+      minify: false,
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'kiwi.html',
+      chunks: ['kiwi'],
+      title: 'Kiwi',
+      template: 'src/page-template.hbs',
+      description: 'Kiwi',
     }),
   ]
 }
