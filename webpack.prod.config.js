@@ -9,7 +9,7 @@ module.exports = {
   output: {
     filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, './dist'),
-    publicPath: ''
+    publicPath: '/static/'
   },
   mode: 'production',
   // only splits commmon dependencies of each bundle.js into a single chunk
