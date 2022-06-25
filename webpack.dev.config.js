@@ -7,22 +7,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const absolutePathToDist = path.resolve(__dirname, './dist');
 
 module.exports = {
-  entry: {
-    'hello-world': './src/hello-world.js',
-    'kiwi': './src/kiwi.js'
-  },
+  entry: './src/index.js',
   output: {
-    filename: '[name].js',
+    filename: '[name].bundle.js',
     path: absolutePathToDist,
-    // publicPath: 'http://the-most-awesome=website.com/',
     // publicPath: 'dist/',
     publicPath: ''
   },
   mode: 'development',
   devServer: {
-    // contentBase: absolutePathToDist,
-    // index: 'index.html',
-    // writeToDisk: true,
     static: {
       directory: absolutePathToDist
     },
@@ -39,7 +32,17 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif)$/,
         use: [
           'file-loader'
-        ]
+        ],
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 3 * 1024
+          }
+        }
+      },
+      {
+        test: /\.txt/,
+        type: 'asset/source'
       },
       {
         test: /\.(css)$/,
@@ -64,7 +67,6 @@ module.exports = {
           },
           "sass-loader"
         ],
-        // include: /\.module\.(scss|sass)$/,
       },
 
       {
@@ -87,34 +89,16 @@ module.exports = {
     ]
   },
   plugins: [
-    // new TerserPlugin(), // not needed during dev
-    // new MiniCssExtractPlugin({
-    //   filename: 'styles.[contenthash].css',
-    // }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
         '**/*', // remove all files in dist folder | default behavior of plugin
         path.join(process.cwd(), 'build/**/*')  // additional folder to clean
       ]
     }),
-    // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Hello world',
-      // filename: 'subfolder/custom_filename.html',
-      // meta: {
-      //   description: 'Some description'
-      // }
-      chunks: ['hello-world'],
-      filename: 'hello-world.html',
       template: 'src/page-template.hbs',
       description: 'Hello World'
-    }),
-    new HtmlWebpackPlugin({
-      title: 'Kiwi',
-      chunks: ['kiwi'],
-      filename: 'kiwi.html',
-      template: 'src/page-template.hbs',
-      description: 'Kiwi'
     }),
   ]
 }

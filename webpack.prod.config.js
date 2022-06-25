@@ -5,15 +5,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: {
-    'hello-world': './src/hello-world.js',
-    'kiwi': './src/kiwi.js',
-  },
+  entry: './src/index.js',
   output: {
-    filename: '[name].[contenthash].js',
+    filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, './dist'),
-    // publicPath: 'http://the-most-awesome=website.com/',
-    // publicPath: 'dist/',
     publicPath: ''
   },
   mode: 'production',
@@ -48,7 +43,17 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif)$/,
         use: [
           'file-loader'
-        ]
+        ],
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 3 * 1024
+          }
+        }
+      },
+      {
+        test: /\.txt/,
+        type: 'asset/source'
       },
       {
         test: /\.(css)$/,
@@ -98,7 +103,7 @@ module.exports = {
   plugins: [
     // new TerserPlugin(), // already included in production by webpack
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
+      filename: 'styles.[contenthash].css',
     }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
@@ -107,23 +112,14 @@ module.exports = {
       ]
     }),
     new HtmlWebpackPlugin({
-      filename: 'hello-world.html',
-
       // which bundle.js files to link/reference to this html | entry['name']
       // no need to add the chunk referring to common dependencies (vendor) | automatically done by webpack
-      chunks: ['hello-world'],
+      // chunks: ['hello-world'],
       title: 'Hello world',
       template: 'src/page-template.hbs',
       description: 'Hello World',
       // don't minify to see code formatted | minify if for production
       minify: false,
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'kiwi.html',
-      chunks: ['kiwi'],
-      title: 'Kiwi',
-      template: 'src/page-template.hbs',
-      description: 'Kiwi',
     }),
   ]
 }
