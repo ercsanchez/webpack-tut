@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.config.js",
     "build:serve": "npx webpack serve --hot --config webpack.prod.config.js",
-    "dev": "webpack serve --hot --config webpack.dev.config.js"
+    "dev": "webpack serve --hot --config webpack.dev.config.js",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
+    "express": "^4.18.1",
     "handlebars": "^4.7.7",
     "react": "^18.2.0"
   }
